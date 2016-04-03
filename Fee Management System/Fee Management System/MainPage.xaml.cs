@@ -233,8 +233,6 @@ namespace Fee_Management_System
 
         public async void FormDatabase()
         {
-            CreateDatabase();
-
             Insert(new Student("AAKASH HASIJA", "UG201310001",          "9999900000", "ug201310001@iitj.ac.in", 6, "III", "CSE", "B.Tech", "None", "Unpaid", "Unpaid", "Cleared", "Hosteler"));
             Insert(new Student("AAYUSH SHARDA", "UG201310002",          "9999900000", "ug201310002@iitj.ac.in", 6, "III", "CSE", "B.Tech", "None", "Unpaid", "Unpaid", "Cleared", "Day Scholar"));
             Insert(new Student("ABHAY KUMAR SINGH", "UG201310003",      "9999900000", "ug201310003@iitj.ac.in", 6, "III", "CSE", "B.Tech", "None", "Unpaid", "Unpaid", "Cleared", "Hosteler"));
@@ -744,7 +742,7 @@ namespace Fee_Management_System
                 ssl = true;
                 string receipt = "\t\t\tPayment Receipt\nApplication No.:    \t\t" + existingconact.RollNo + "\nName:               \t\t" + existingconact.Name + "\nAmount:             \t\t" + Amount.Text + "\nTransaction ID:     \t\tXXXXXXXXXX\nPayment ID:         \t\tYYYYYYYYYY\nError:              \t\tNone\nDate|Time of Payment:\t\t" + DateTime.Now.ToString();
 
-                SmtpClient client = new SmtpClient(smtpServer, port, "kshitij.minocha@gmail.com", "safety101", ssl);
+                SmtpClient client = new SmtpClient(smtpServer, port, "kshitij.minocha@gmail.com", "XXXXXXXXXXX", ssl);
 
                 SmtpMessage message = new SmtpMessage("kshitij.minocha@gmail.com", existingconact.Email, null, "Fee Payment Confirmation Receipt", receipt);
 
@@ -892,9 +890,31 @@ namespace Fee_Management_System
             editToast();
         }
 
-        private void SDRecords_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        private void btnCreateSD_Click(object sender, RoutedEventArgs e)
         {
+            if(ApplicationData.Current.LocalSettings.Values.ContainsKey("Database")==false)
+            {
+                var sqlpath = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "Studentdb.sqlite");
+                using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), sqlpath))
+                {
+                    conn.CreateTable<Student>();
+                }
 
+                var sqlpath2 = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "FeeRecorddb.sqlite");
+                using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), sqlpath2))
+                {
+                    conn.CreateTable<FeeRecord>();
+                }
+
+                FormDatabase();
+
+                ApplicationData.Current.LocalSettings.Values["Database"] = true;
+                btnCreateSD.IsEnabled = false;
+            }
+            else
+            {
+                btnCreateSD.IsEnabled = false;
+            }
         }
     }
 }

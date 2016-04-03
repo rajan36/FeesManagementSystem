@@ -20,6 +20,10 @@
 
 
         <Grid x:Name="LoginGrid" Visibility="Visible">
+
+            <Button x:Name="btnCreateSD" Content="Create Sample Student DB" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,190,40,0" Background="#FFFF6D19" BorderBrush="#FFFF6D19" Click="btnCreateSD_Click"/>
+            <TextBlock Text="Click this button to create a sample student database before running the application. This has to be done just once." HorizontalAlignment="Right" VerticalAlignment="Top" Width="190" TextWrapping="Wrap" Margin="0,240,40,0" FontSize="12"/>
+
             <StackPanel Orientation="Vertical" Width="300">
                 <TextBlock Text="User Login" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="25" Foreground="Black" FontWeight="Bold" Margin="0,190,0,0"/>
                 <TextBlock Text="Username" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="18" Foreground="Black" FontWeight="Normal" Margin="0,40,0,0"/>
@@ -35,7 +39,7 @@
 
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="Login" Content="Login" Margin="0,25,0,0" Width="100" Background="#FFFF6D19" Click="Login_Click"/>
-                    <Button x:Name="FP" Content="Forgot Password?" FontSize="10" Margin="0,25,0,0" Background="{x:Null}" Click="FP_Click"/>
+                    <Button IsEnabled="True" x:Name="FP" Content="Forgot Password?" FontSize="10" Margin="0,25,0,0" Background="{x:Null}" Click="FP_Click"/>
                     <ProgressRing x:Name="Loading" Visibility="Collapsed" Margin="75,25,5,0" Foreground="#FFFF6D19" IsActive="True"/>
                 </StackPanel>
                 <TextBlock x:Name="Status" Visibility="Collapsed" Text="Invalid Credentials!" FontSize="10" Margin="0,10,0,0" Foreground="Red"/>
@@ -317,7 +321,7 @@
                 <TextBlock Text="Dues" Width="60" FontSize="12"/>
                 <TextBlock Text="Accomodation" Width="80" FontSize="12"/>
             </StackPanel>
-            <ListBox x:Name="SDRecords" IsEnabled="False" HorizontalAlignment="Center" Margin="40,280,40,70" DataContextChanged="SDRecords_DataContextChanged">
+            <ListBox x:Name="SDRecords" IsEnabled="False" HorizontalAlignment="Center" Margin="40,280,40,70">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
